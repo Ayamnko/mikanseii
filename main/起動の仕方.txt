@@ -1,0 +1,5 @@
+powershellに
+
+python "C:\Users\n1230354.STCN2\Desktop\仕様書\app.py"
+
+を入力してhtmlを開く

@@ -1,0 +1,107 @@
+/* リセットCSSを追加 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #2A2A2A;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh; /* 画面の高さいっぱいに広がる */
+}
+
+header {
+    text-align: center;
+    font-size: 28px; /* ヘッダータイトルのフォントサイズを大きくする */
+    padding: 15px 20px; /* パディングを調整して見やすくする */
+    background-color: #1A4472;
+    color: #FFFFFF;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 影を追加して立体感を与える */
+    width: 100%; /* ヘッダーを画面幅いっぱいに広げる */
+}
+
+.content {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* 上寄せにする */
+    margin-top: 20px; /* ヘッダーとのスペースを調整 */
+}
+
+.input-container {
+    margin-top: 20px; /* 入力フォームとグラフの間のスペースを追加 */
+    display: flex;
+    align-items: center;
+    justify-content: center; /* 中央寄せにする */
+}
+
+.input-container input,
+.input-container button {
+    margin-right: 10px;
+    height: 40px; /* 入力部分とボタンの高さを合わせる */
+    border-radius: 5px; /* 角を丸める */
+    padding: 0 10px; /* 左右のパディングを追加 */
+    border: 1px solid #ccc; /* ボーダーを追加 */
+    font-size: 16px; /* フォントサイズを指定 */
+}
+
+.input-container button {
+    padding: 10px 20px; /* タップしやすくするためのパディングを追加 */
+    background-color: #1A4472; /* headerと同じ背景色 */
+    color: #FFFFFF; /* 白文字で対比をはかる */
+    border: none;
+    border-radius: 5px; /* 角を丸める */
+    cursor: pointer; /* ホバー時のカーソルをポインターに */
+    transition: background-color 0.3s ease; /* ホバーエフェクトをスムーズにする */
+
+    /* 追加のスペースとマージンで整列を改善 */
+    margin-top: 10px;
+    margin-left: 5px;
+}
+
+.input-container button:hover {
+    background-color: #0E2D45; /* ホバー時に色を少し暗くする */
+}
+
+.left-container {
+    margin-right: 20px; /* 左側コンテナの右マージンを追加 */
+}
+
+.right-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.chart-container {
+    margin-bottom: 20px; /* グラフコンテナ間のスペースを追加 */
+    width: 400px; /* グラフの幅を指定 */
+    max-width: 100%; /* 幅が画面幅より広くならないようにする */
+}
+
+#pieChart {
+    height: 200px; /* 円グラフの高さを固定 */
+}
+
+#barChart,
+#lineChart {
+    height: 200px; /* 棒グラフと折れ線グラフの高さを固定 */
+}
+
+hr.line1 {
+    border: none;
+    border-bottom: 2px solid #FFFFFF; /* 下線をシンプルな白の線に変更 */
+    width: 100%; /* 幅を100%にして横幅いっぱいに広げる */
+    margin: 10px 0; /* 上下のマージンを調整 */
+}
+
+canvas {
+    display: block;
+    background: #FFFFFF; /* 背景色を白に変更してコントラストを向上させる */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px; /* 角を丸めて滑らかな見た目にする */
+    width: 100%; /* グラフの幅を100%にする */
+}

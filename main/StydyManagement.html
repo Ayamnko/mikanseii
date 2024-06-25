@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>勉強時間管理</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header>
+        <h2>勉強時間管理アプリ</h2>
+        <hr class="line1">
+    </header>
+
+    <div class="input-container">
+        <input type="text" id="subject-input" placeholder="科目を入力">
+        <input type="number" id="time-input" placeholder="時間（分）">
+        <input type="color" id="color-input" value="#4BC0C0">
+        <button id="add-button" type="button">追加</button>
+        <button id="delete-button" type="button">削除</button>
+    </div>
+
+    <div class="content">
+        <div class="left-container">
+            <div class="chart-container">
+                <canvas id="pieChart" width="200" height="200"></canvas> <!-- 円グラフのサイズを変更 -->
+            </div>
+        </div>
+        <div class="right-container">
+            <div class="chart-container">
+                <canvas id="barChart" width="400" height="200"></canvas> <!-- 棒グラフのサイズを変更 -->
+            </div>
+            <div class="chart-container">
+                <canvas id="lineChart" width="400" height="200"></canvas> <!-- 折れ線グラフのサイズを変更 -->
+            </div>
+        </div>
+    </div>
+    <!-- JavaScriptの読み込み -->
+    <script src="script.js"></script>
+</body>
+</html>
