@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>アーム制御パネル</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.socket.io/socket.io-2.3.1.js"></script>
+  <script src="https://beebotte.com/bbt.js"></script>
+  <style>
+    body { font-family: sans-serif; padding: 20px; }
+    #status { margin-bottom: 10px; }
+    #angleCtrl { display: none; margin-top: 10px; }
+    button, input[type=range] { font-size: 16px; }
+  </style>
+</head>
+<body>
+  <h1>アーム制御パネル</h1>
+  <div id="status">センサー状態：<strong>未検知</strong></div>
+  <div id="angleCtrl">
+    <label>角度指定：<span id="angleValue">45</span>°</label><br>
+    <input id="angleSlider" type="range" min="0" max="180" value="45">
+    <button id="sendBtn">送信</button>
+  </div>
+
+  <script>
+    // --- Beebotte設定 ---
+    // 正常に通信できている「参考コード」の初期化方法をそのまま使います。
+    // この 'e2MUyx4qf3AKYKomJrZnn85E' があなたの環境で有効なキーです。
+    var bbt = new BBT('e2MUyx4qf3AKYKomJrZnn85E');
+    // ESP32のコードと同じトークン（送信時にURLに含めます）
+    const BBT_TOKEN_PUBLISH = 'token_EUPsOMBWypIHwQ94'; 
+
+    // --- センサー状態の監視 (ESP32 → HTML) ---
+    // 「参考コード」と同じ購読設定とデータ解釈ロジックを使います。
+    // ESP32の mqtt_send トピック (RobotControl/robotState) を購読します。
+    bbt.subscribe( {channel: 'RobotControl', resource: 'robotState'}, function(message){
+      // ESP32は {"data":0} や {"data":1} を送るので、message.data で直接値を取得
+      const detected = message.data === 1; // 0または1を直接比較
+
+      $('#status strong').text(detected ? '検知中' : '未検知');
+
+      // ESP32のロジックに合わせて、障害物検知時は手動制御パネルを非表示にします。
+      // (ESP32側は障害物検知時に自動動作に切り替わるため)
+      if (detected) {
+        $('#angleCtrl').hide(); 
+      } else {
+        $('#angleCtrl').show();
+      }
+    });
+
+    // --- スライダー操作時の表示更新 ---
+    $('#angleSlider').on('input', function(){
+      $('#angleValue').text($(this).val());
+    });
+
+    // --- 角度送信 (HTML → ESP32) ---
+    // 「参考コード」のHTTP POSTによる送信方法をそのまま使います。
+    // ESP32は RobotControl/move を購読し、{"data":角度} を期待します。
+    $('#sendBtn').on('click', function(){
+      const angle = parseInt($('#angleSlider').val());
+      
+      // HTTP POST を使ってBeebotteのAPIへデータを送信
+      $.post(
+        `https://api.beebotte.com/v1/data/publish/RobotControl/move?token=${BBT_TOKEN_PUBLISH}`, 
+        {data: angle}, // {"data":angle} の形式で送信
+        function(response) {
+            console.log("Publish Success:", response);
+            alert("角度 " + angle + "° を送信しました！");
+        },
+        "json" // レスポンス形式をJSONと指定
+      ).fail(function(jqXHR, textStatus, errorThrown) {
+            console.error("Publish Error:", textStatus, errorThrown, jqXHR.responseText);
+            alert("角度送信に失敗しました: " + textStatus);
+      });
+    });
+  </script>
+</body>
+</html>
